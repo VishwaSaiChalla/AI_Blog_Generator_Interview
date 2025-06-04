@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Blog Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .search-box {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 60%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .blog-content {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            white-space: pre-wrap;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin: 20px 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center;">AI Blog Generator</h1>
+        
+        <div class="search-box">
+            <input type="text" id="keyword" placeholder="Enter your keyword (e.g., 'wireless earbuds')">
+            <button onclick="generateBlog()">Generate Blog Post</button>
+        </div>
+
+        <div class="loading" id="loading">
+            Generating blog post... Please wait...
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="blog-content" id="blogContent"></div>
+    </div>
+
+    <script>
+        async function generateBlog() {
+            const keyword = document.getElementById('keyword').value.trim();
+            if (!keyword) {
+                showError('Please enter a keyword');
+                return;
+            }
+
+            // Show loading and hide previous content
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('blogContent').innerHTML = '';
+
+            try {
+                const response = await fetch(`/generate?keyword=${encodeURIComponent(keyword)}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Display the blog post
+                    document.getElementById('blogContent').innerHTML = data.blog_post;
+                } else {
+                    showError(data.error || 'Failed to generate blog post');
+                }
+            } catch (error) {
+                showError('An error occurred while generating the blog post');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        // Allow Enter key to trigger generation
+        document.getElementById('keyword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateBlog();
+            }
+        });
+    </script>
+</body>
+</html> 
