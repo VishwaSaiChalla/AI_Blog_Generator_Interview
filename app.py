@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, render_template
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 import os
+#import markdown
 from dotenv import load_dotenv
 from seo_fetcher import get_seo_data
 from ai_generator import generate_blog_post
@@ -10,6 +11,7 @@ from ai_generator import generate_blog_post
 load_dotenv()
 
 app = Flask(__name__)
+									   
 
 # Initialize scheduler
 scheduler = BackgroundScheduler()
@@ -36,7 +38,7 @@ def generate_daily_post():
 @app.route('/')
 def home():
     """Render the main page"""
-    return render_template('index.html')
+    return render_template('index.html')															   
 
 @app.route('/generate', methods=['GET'])
 def generate_post():
@@ -46,18 +48,23 @@ def generate_post():
         return jsonify({"error": "Keyword parameter is required"}), 400
     
     try:
+																   
         # Get SEO data for the keyword
         seo_data = get_seo_data(keyword)
         
         # Generate blog post using AI
         blog_post = generate_blog_post(keyword, seo_data)
-        
+
+        # Convert Markdown to HTML
+        # blog_post_html = markdown.markdown(blog_post, extensions=["fenced_code", "nl2br"])
+																			   
         return jsonify({
             "keyword": keyword,
             "seo_data": seo_data,
             "blog_post": blog_post
         })
     except Exception as e:
+															 
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':

@@ -5,68 +5,362 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Blog Generator</title>
     <style>
+        :root {
+            --primary-color: #6C63FF;
+            --secondary-color: #4CAF50;
+            --accent-color: #FF6B6B;
+            --background-dark: #1a1a1a;
+            --background-light: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --border-color: #404040;
+            --success-color: #4CAF50;
+            --error-color: #f44336;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f5;
+            background-color: var(--background-dark);
+            color: var(--text-primary);
         }
+
         .container {
-            background-color: white;
+            background-color: var(--background-light);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: -30px -30px 30px -30px;
         }
+
+        .header h1 {
+            color: var(--text-primary);
+            margin: 0;
+            font-size: 2.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            margin: 10px 0 0;
+            font-size: 1.1em;
+        }
+
         .search-box {
             margin-bottom: 30px;
             text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, var(--background-light), var(--background-dark));
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
+
         input[type="text"] {
             width: 60%;
-            padding: 12px;
+            padding: 15px;
             font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
+            background-color: var(--background-dark);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
             margin-right: 10px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
         }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(108, 99, 255, 0.3);
+            white-space: pre-wrap;
+        }
+
         button {
-            padding: 12px 24px;
+            padding: 15px 30px;
             font-size: 16px;
-            background-color: #007bff;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
         }
+
         button:hover {
-            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.4);
         }
+
         .loading {
             display: none;
             text-align: center;
             margin: 20px 0;
-        }
-        .blog-content {
-            margin-top: 30px;
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: white;
-            white-space: pre-wrap;
+            background-color: var(--background-light);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
         }
+
         .error {
-            color: red;
+            color: var(--error-color);
             text-align: center;
             margin: 20px 0;
+            padding: 15px;
+            background-color: rgba(244, 67, 54, 0.1);
+            border: 1px solid var(--error-color);
+            border-radius: 8px;
             display: none;
+        }
+
+        .blog-content {
+            margin-top: 30px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background-color: var(--background-light);
+        }
+
+        .blog-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background-color: var(--background-dark);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .blog-title {
+            color: var(--primary-color);
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .blog-subtitle {
+            color: var(--secondary-color);
+            font-size: 1.6em;
+            margin: 30px 0 20px;
+            padding: 12px 18px;
+            background-color: var(--background-light);
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 6px;
+        }
+
+        .blog-subsubtitle {
+            color: var(--accent-color);
+            font-size: 1.3em;
+            margin: 25px 0 15px;
+            padding: 10px 15px;
+            background-color: var(--background-light);
+            border-left: 3px solid var(--accent-color);
+            border-radius: 6px;
+        }
+
+        .blog-source {
+            color: var(--text-secondary);
+            font-size: 1.1em;
+            margin: 20px 0;
+            padding: 12px 15px;
+            background-color: var(--background-light);
+            border-left: 3px solid var(--text-secondary);
+            border-radius: 6px;
+            font-style: italic;
+        }
+
+        .source-name {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        .source-url {
+            color: var(--secondary-color);
+            font-style: normal;
+            word-break: break-all;
+        }
+
+        .blog-paragraph {
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin: 20px 0;
+            padding: 0 25px;
+        }
+
+        .blog-list {
+            margin: 20px 0;
+            padding-left: 25px;
+            color: var(--text-secondary);
+        }
+
+        .blog-list li {
+            margin: 12px 0;
+            line-height: 1.6;
+        }
+
+        .seo-stats {
+            background: linear-gradient(135deg, var(--background-light), var(--background-dark));
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .seo-stats h3 {
+            color: var(--primary-color);
+            margin: 0 0 15px 0;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .seo-stats ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .seo-stats li {
+            margin: 0;
+            color: var(--text-secondary);
+            display: inline-block;
+            padding: 0 25px;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .seo-stats li:last-child {
+            border-right: none;
+        }
+
+        /* Add smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Add hover effects */
+        .blog-section:hover {
+            transform: translateY(-2px);
+            transition: transform 0.3s ease;
+        }
+
+        /* Add focus styles */
+        *:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .blog-title a,
+        .blog-subtitle a,
+        .blog-subsubtitle a,
+        .source-url {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .blog-title a:hover,
+        .blog-subtitle a:hover,
+        .blog-subsubtitle a:hover,
+        .source-url:hover {
+            color: var(--accent-color);
+        }
+
+        .blog-title a::after,
+        .blog-subtitle a::after,
+        .blog-subsubtitle a::after,
+        .source-url::after {
+            content: '↗';
+            font-size: 0.8em;
+            margin-left: 4px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .blog-title a:hover::after,
+        .blog-subtitle a:hover::after,
+        .blog-subsubtitle a:hover::after,
+        .source-url:hover::after {
+            opacity: 1;
+        }
+
+        .sources-header {
+            color: var(--primary-color);
+            font-size: 1.4em;
+            margin: 30px 0 20px;
+            padding: 15px;
+            background-color: var(--background-light);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .source-item {
+            color: var(--text-secondary);
+            font-size: 1.1em;
+            margin: 15px 0;
+            padding: 12px 15px;
+            background-color: var(--background-light);
+            border-left: 3px solid var(--secondary-color);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .source-item:hover {
+            transform: translateX(5px);
+            background-color: var(--background-dark);
+        }
+
+        .source-title {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            display: block;
+        }
+
+        .source-title:hover {
+            color: var(--accent-color);
+        }
+
+        .source-title::after {
+            content: '↗';
+            font-size: 0.8em;
+            margin-left: 4px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .source-title:hover::after {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 style="text-align: center;">AI Blog Generator</h1>
+        <div class="header">
+            <h1>AI Blog Generator</h1>
+            <p>Generate SEO-optimized blog posts with AI</p>
+        </div>
         
         <div class="search-box">
             <input type="text" id="keyword" placeholder="Enter your keyword (e.g., 'wireless earbuds')">
@@ -74,7 +368,8 @@
         </div>
 
         <div class="loading" id="loading">
-            Generating blog post... Please wait...
+            <h3>Generating blog post...</h3>
+            <p>Please wait while we create your content...</p>
         </div>
 
         <div class="error" id="error"></div>
@@ -83,8 +378,27 @@
     </div>
 
     <script>
+        // Add debug logging
+        console.log('Script loaded');
+
+        // Function to clean and format text
+        function formatText(text) {
+            return text
+                .replace(/\s+/g, ' ')           // Replace multiple spaces with single space
+                .replace(/^\s+|\s+$/g, '')      // Trim whitespace
+                .replace(/[^\x20-\x7E]/g, '')   // Remove non-printable characters
+                .replace(/&/g, '&amp;')         // Escape HTML entities
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         async function generateBlog() {
+            console.log('generateBlog function called');
             const keyword = document.getElementById('keyword').value.trim();
+            console.log('Keyword:', keyword);
+            
             if (!keyword) {
                 showError('Please enter a keyword');
                 return;
@@ -96,33 +410,117 @@
             document.getElementById('blogContent').innerHTML = '';
 
             try {
+                console.log('Sending request for keyword:', keyword);
                 const response = await fetch(`/generate?keyword=${encodeURIComponent(keyword)}`);
-                const data = await response.json();
-
-                if (response.ok) {
-                    // Display the blog post
-                    document.getElementById('blogContent').innerHTML = data.blog_post;
-                } else {
-                    showError(data.error || 'Failed to generate blog post');
+                console.log('Response received:', response);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
+                
+                const data = await response.json();
+                console.log('Data received:', data);
+
+                if (data.error) {
+                    showError(data.error);
+                    return;
+                }
+
+                // Format the blog post content
+                let formattedContent = data.blog_post
+                    // Remove lines with only -- separator
+                    .replace(/^--\s*$\s*/gm, '')
+                    .replace(/^# (.*$)/gm, '<div class="blog-title">$1</div>')
+                    .replace(/^## (.*$)/gm, '<div class="blog-subtitle">$1</div>')
+                    .replace(/^### (.*$)/gm, '<div class="blog-subsubtitle">$1</div>')
+                    // Handle source section with specific format
+                    .replace(/^Sources?:$/gm, '<div class="sources-header">References</div>')
+                    .replace(/^-\s*([^-]+)\s*(https?:\/\/[^\s]+)$/gm,
+                        '<div class="source-item"><a href="$2" target="_blank" rel="noopener noreferrer" class="source-title">$1</a></div>')
+                    // Convert markdown list items including bold text to HTML list items
+                    .replace(/^\s*[-*]\s*\*\*(.*?)\*\*:\s*(.*)$/gm, '<li><strong>$1</strong>: $2</li>') // Handles bold at start of list item
+                    .replace(/^\s*[-*]\s*(.*)$/gm, '<li>$1</li>') // Handles regular list items
+
+                    // Remove list items that contain only -- or ---
+                    .replace(/<li>--+<\/li>\s*/gm, '')
+
+                    // Convert **text** to bold text globally for any remaining cases (e.g., within paragraphs)
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+
+                    // Remove specific --- separator before Sources
+                    .replace(/^---\s*\n\s*### Sources/gm, '### Sources')
+
+                    // Remove any other lines with only --- separator (fallback)
+                    .replace(/^---\s*$/gm, '')
+
+                    // Clean up paragraphs (lines that are not already part of a div, list, or source item)
+                    .replace(/^(?!<div|<li|<div class="source-item">)(.*$)/gm, function(match) {
+                        // Remove trailing "--" from the match before wrapping in a paragraph div
+                        let cleanedMatch = match.trim().replace(/\s+--$/, '').replace(/\s+/g, ' ');
+                        return '<div class="blog-paragraph">' +
+                               cleanedMatch +
+                               '</div>';
+                    })
+                    // Wrap li items in ul - This will now wrap blocks of <li> tags
+                     .replace(/(<li>.*?<\/li>(\s*<li>.*?<\/li>)*)/gs, '<ul class="blog-list">$1</ul>')
+
+                    // Remove lines with only --- separator
+                    .replace(/^---\s*$\s*/gm, '')
+
+                    // Remove empty lines
+                    .replace(/^\s*[\r\n]/gm, '');
+
+                // Create SEO stats section
+                const seoStats = `
+                    <div class="seo-stats">
+                        <h3>SEO Statistics</h3>
+                        <ul>
+                            <li>Search Volume: ${formatText(data.seo_data.search_volume.toString())}</li>
+                            <li>Keyword Difficulty: ${formatText(data.seo_data.keyword_difficulty.toString())}</li>
+                            <li>Average CPC: $${formatText(data.seo_data.avg_cpc.toString())}</li>
+                        </ul>
+                    </div>
+                `;
+
+                // Display the formatted blog post and SEO stats
+                document.getElementById('blogContent').innerHTML = 
+                    `<div class="blog-section">${formattedContent}</div>${seoStats}`;
             } catch (error) {
-                showError('An error occurred while generating the blog post');
+                console.error('Error:', error);
+                showError('An error occurred while generating the blog post: ' + error.message);
             } finally {
                 document.getElementById('loading').style.display = 'none';
             }
         }
 
         function showError(message) {
+            console.log('Showing error:', message);
             const errorDiv = document.getElementById('error');
-            errorDiv.textContent = message;
+            errorDiv.textContent = formatText(message);
             errorDiv.style.display = 'block';
         }
 
-        // Allow Enter key to trigger generation
-        document.getElementById('keyword').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
+        // Add event listeners when the document is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, adding event listeners');
+            
+            // Add click event listener to the button
+            const button = document.querySelector('button');
+            console.log('Button element:', button);
+            button.addEventListener('click', function(e) {
+                console.log('Button clicked');
                 generateBlog();
-            }
+            });
+            
+            // Add keypress event listener to the input
+            const input = document.getElementById('keyword');
+            console.log('Input element:', input);
+            input.addEventListener('keypress', function(e) {
+                console.log('Key pressed:', e.key);
+                if (e.key === 'Enter') {
+                    generateBlog();
+                }
+            });
         });
     </script>
 </body>
