@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Blog Post</title>
+    <style>
+        :root {
+            --primary-color: #00A077; /* A green from resume.io */
+            --secondary-color: #3E70E4; /* A blue from resume.io */
+            --accent-color: #FF7043; /* An orange/red accent */
+            --background-dark: #1A1A1A; /* Dark background */
+            --background-light: #282828; /* Slightly lighter background */
+            --text-primary: #E0E0E0; /* Light grey text for readability */
+            --text-secondary: #B0B0B0; /* Slightly darker grey text */
+            --border-color: #383838; /* Darker border color */
+            --success-color: #4CAF50;
+            --error-color: #f44336;
+            --card-background: #212121; /* Background for reviews/form */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Adjusted font stack */
+            max-width: 1000px; /* Adjusted max width */
+            margin: 40px auto; /* Added top/bottom margin */
+            padding: 0 20px; /* Adjusted padding */
+            background-color: var(--background-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            background-color: var(--background-light);
+            padding: 40px; /* Increased padding */
+            border-radius: 8px; /* Slightly smaller border-radius */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5); /* Stronger shadow */
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px; /* Increased margin */
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color); /* Thinner border */
+            background-color: var(--background-light); /* Match container background */
+            padding: 0 0 20px 0; /* Adjusted padding */
+            border-radius: 0; /* No border radius */
+            margin: 0 0 40px 0; /* Adjusted margin */
+        }
+
+        .header h1 {
+            color: var(--text-primary);
+            margin: 0;
+            font-size: 3em; /* Increased font size */
+            text-shadow: none; /* Removed text shadow */
+            letter-spacing: 0.5px; /* Reduced letter spacing */
+            font-weight: 600; /* Semi-bold */
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            margin: 10px 0 0;
+            font-size: 1.1em;
+        }
+
+        .blog-post-content h1, .blog-post-content h2, .blog-post-content h3, .blog-post-content h4, .blog-post-content h5, .blog-post-content h6 {
+            color: var(--primary-color);
+            margin-top: 1.8em; /* Increased top margin */
+            margin-bottom: 0.8em; /* Increased bottom margin */
+            padding-bottom: 0.5em; /* Increased padding */
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600; /* Semi-bold */
+        }
+
+         .blog-post-content h2 {
+            border-bottom-width: 2px;
+         }
+
+        .blog-post-content p {
+            line-height: 1.8;
+            margin-bottom: 1.5em; /* Increased bottom margin */
+            color: var(--text-secondary);
+        }
+
+        .blog-post-content ul,
+        .blog-post-content ol {
+            margin-bottom: 1.5em; /* Increased bottom margin */
+            color: var(--text-secondary);
+            padding-left: 20px; /* Added padding */
+        }
+
+        /* Remove numbering from ordered lists */
+        .blog-post-content ol {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .blog-post-content li {
+            margin-bottom: 0.8em; /* Increased bottom margin */
+            line-height: 1.6;
+        }
+
+        .blog-post-content a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.2s ease; /* Added transition */
+        }
+
+        .blog-post-content a:hover {
+            color: var(--primary-color); /* Change color on hover */
+            text-decoration: underline;
+        }
+
+        /* Sources Section Styling */
+        .sources-section {
+            margin-top: 40px; /* Space above the sources section */
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .sources-section h2 {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        .sources-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sources-list li {
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+
+        .sources-list a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .sources-list a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px; /* Increased top margin */
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500; /* Medium weight */
+            transition: color 0.2s ease; /* Added transition */
+        }
+
+        .back-link:hover {
+            color: var(--primary-color); /* Change color on hover */
+            text-decoration: underline; /* Underline on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{ title }}</h1>
+        </div>
+
+        <div class="blog-post-content">
+            {{ post_html | safe }}
+        </div>
+
+        {% if sources %}
+        <div class="sources-section">
+            <h2>Sources</h2>
+            <ul class="sources-list">
+                {% for source in sources %}
+                    <li>Source: <a href="{{ source.url }}" target="_blank">{{ source.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <a href="{{ url_for('home') }}" class="back-link">← Back to Posts</a>
+    </div>
+</body>
+</html> 

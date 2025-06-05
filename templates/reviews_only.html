@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews for Post</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> {# Assuming you might have a static CSS file later #}
+    <style>
+        :root {
+            --primary-color: #00A077; /* A green from resume.io */
+            --secondary-color: #3E70E4; /* A blue from resume.io */
+            --accent-color: #FF7043; /* An orange/red accent */
+            --background-dark: #1A1A1A; /* Dark background */
+            --background-light: #282828; /* Slightly lighter background */
+            --text-primary: #E0E0E0; /* Light grey text for readability */
+            --text-secondary: #B0B0B0; /* Slightly darker grey text */
+            --border-color: #383838; /* Darker border color */
+            --success-color: #4CAF50;
+            --error-color: #f44336;
+            --card-background: #212121; /* Background for list items/cards */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: none;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            background-color: var(--background-light);
+            padding: 40px 80px;
+            border-radius: 0;
+            box-shadow: none;
+            max-width: 800px; /* Limit width for reviews content */
+            margin: 20px auto; /* Center the container */
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            color: var(--text-primary);
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 600;
+        }
+
+         .header p {
+             color: var(--text-secondary);
+             margin: 10px 0 0;
+             font-size: 1.1em;
+         }
+
+        /* Reviews Section Styling */
+        .reviews-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .reviews-section h2 {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        .reviews-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0; /* Margin below the list */
+        }
+
+        .review-item {
+            background-color: var(--card-background);
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 15px; /* Space between reviews */
+        }
+
+        .review-item h3 {
+            color: var(--secondary-color);
+            font-size: 1.2em;
+            margin: 0 0 5px 0;
+        }
+
+        .review-item p {
+            color: var(--text-primary);
+            margin: 0 0 10px 0;
+        }
+
+        .review-item .timestamp {
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            text-align: right;
+            display: block;
+        }
+
+        /* Review Form Styling */
+        .review-form h2 {
+             color: var(--primary-color);
+             font-size: 1.8em;
+             margin-bottom: 25px;
+             padding-bottom: 10px;
+             border-bottom: 2px solid var(--border-color);
+             font-weight: 600;
+        }
+
+        .review-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-weight: bold;
+        }
+
+        .review-form input[type="text"],
+        .review-form textarea {
+            width: calc(100% - 24px); /* Adjust for padding and border */
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--background-dark);
+            color: var(--text-primary);
+            font-size: 1em;
+        }
+
+        .review-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .review-form button {
+             padding: 12px 25px;
+             font-size: 1em;
+             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+             color: white;
+             border: none;
+             border-radius: 6px;
+             cursor: pointer;
+             transition: all 0.3s ease;
+             text-transform: uppercase;
+             letter-spacing: 0.5px;
+             font-weight: bold;
+        }
+
+        .review-form button:hover {
+             transform: translateY(-2px);
+             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+         /* Styling for 'No reviews yet.' message */
+         .no-reviews {
+             color: var(--text-secondary);
+             font-style: italic;
+             margin-bottom: 20px;
+         }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Reviews</h1>
+            <p>Comments and feedback for this post.</p>
+        </header>
+
+        <div class="reviews-section">
+            <h2>User Reviews</h2>
+            {% if reviews %}
+                <ul class="reviews-list">
+                    {% for review in reviews %}
+                        <li class="review-item">
+                            <h3>{{ review.name }}</h3>
+                            <p>{{ review.review }}</p>
+                            <span class="timestamp">{{ review.timestamp }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="no-reviews">No reviews yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html> 

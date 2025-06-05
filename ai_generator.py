@@ -33,45 +33,86 @@ def generate_blog_post(keyword: str, seo_data: Dict[str, float]) -> str:
         str: Generated blog post in Markdown format
     """
     # Construct the prompt
-    prompt = f"""Write a comprehensive blog post about {keyword}. 
-    The post should be informative, engaging, and optimized for SEO.
+    prompt = f"""Write an engaging and educational blog post about {keyword} that's perfect for learners and general audiences.
     
     SEO Metrics:
     - Search Volume: {seo_data['search_volume']}
     - Keyword Difficulty: {seo_data['keyword_difficulty']}
     - Average CPC: ${seo_data['avg_cpc']}
     
-    Requirements:
-    1.Title : Create a compelling, specific, and relevant blog title. Avoid exaggeration or hallucination.
-    2.Introduction : Write two paragraphs (about 5 lines each) that:
-    - Introduce the topic clearly
-    - Explain why it matters today
-    - Briefly preview what the reader will learn
+    Content Requirements:
+    ### 1. Title Creation 
+    Create a clear, compelling title that:
+        - Accurately represents the content
+        - Appeals to beginners and general audiences
+        - Avoids clickbait or exaggeration
+        - Incorporates the main keyword naturally
 
-    3.Main Content : Organize the blog using 4 sections with relevant subheadings. Use this flow where applicable (adapt based on topic):
-    - A bit of background or how the topic originated
-    - Why it's important or trending right now
-    - Some real-world examples or use cases
+    ### 2. Introduction (2 paragraphs, ~5 lines each)
+        - Start with a relatable hook or question
+        - Clearly explain what the topic is in simple terms
+        - Highlight why this matters to everyday readers
+        - Give readers a clear idea of what they'll gain from reading
 
-    4.What’s next: future trends, challenges, or innovations
+    ### 3. Main Content Structure 
+    Instead of rigid sections, create a natural flow that might include:
+        - **Simple explanations** using analogies and real-world comparisons
+        - **Practical examples** that readers can relate to
+        - **Step-by-step breakdowns** when explaining processes
+        - **Common misconceptions** addressed clearly
+        - **Benefits and challenges** explained in plain language
+        - **Current trends** and why they matter
+        - **Real-world applications** with specific examples
 
-    5.Conclusion : Wrap up by summarizing key ideas and offering final thoughts or a call-to-action.
+    *Note: Organize content based on what makes most sense for the topic, not a predetermined structure*
 
-    6.Sources : List 3–5 reputable sources used. Format:
-    - Source Title: (https://link.com)
+    ### 4. Future Outlook
+        - Discuss emerging trends in accessible language
+        - Explain potential challenges or opportunities
+        - Help readers understand what to watch for
 
-    7.Formatting Guidelines:
-    - Use proper Markdown (#, ##, **bold**, *italic*, bullet points, etc.)
+    ### 5. Conclusion
+        - Summarize key takeaways in simple bullet points
+        - Provide actionable next steps for interested readers
+        - Include an engaging call-to-action
 
-    8.Keep tone professional, conversational, and educational
+    ### 6. Sources (3-5 reputable sources)
+    Research and verify each source link before including:
+        - **Source Title**: Brief description (https://verified-working-link.com)
+        - Prioritize authoritative, accessible sources
+        - Ensure all links are functional and lead to relevant content
 
-    9.Word count: 600–800 words
+    ## Writing Guidelines:
 
-    10.If possible, include stats or data points to strengthen the blog
+        **Tone & Style:**
+        - Conversational yet informative
+        - Use "you" to address readers directly
+        - Explain technical terms when first introduced
+        - Include helpful analogies for complex concepts
+        - Ask rhetorical questions to engage readers
 
-    If the topic is unclear, make a reasonable assumption and proceed.
+        **Formatting:**
+        - Use proper Markdown formatting
+        - Break up text with relevant subheadings
+        - Include bullet points for easy scanning
+        - Bold key terms and important points
+        - Use italics for emphasis sparingly
 
-    Only return the blog content. Do not include any assistant instructions or commentary."""
+        **Content Quality:**
+        - Target 700-900 words for comprehensive coverage
+        - Include relevant statistics with proper context
+        - Add practical tips or actionable insights
+        - Ensure accuracy and avoid speculation
+        - Make content shareable and bookmark-worthy
+
+    ## Special Instructions:
+        - If the keyword is ambiguous, choose the most commonly searched interpretation
+        - Focus on providing genuine value to readers
+        - Prioritize clarity over complexity
+        - Include at least 2-3 data points or statistics where relevant
+        - End with something memorable or thought-provoking
+
+    **Return only the finished blog post content in Markdown format. Do not include meta-commentary or instructions."""
     
     try:
         logger.info(f"Generating blog post for keyword: {keyword}")
@@ -105,6 +146,19 @@ def generate_blog_post(keyword: str, seo_data: Dict[str, float]) -> str:
     except Exception as e:
         logger.error(f"Error generating blog post: {str(e)}")
         raise Exception(f"Error generating blog post: {str(e)}")
+
+def check_connection():
+    """
+    Checks the connection to the OpenAI API by making a small request.
+    """
+    try:
+        # Attempt a simple API call to verify connection
+        # Using client.models.list() as a simple check
+        client.models.list()
+        return True
+    except Exception as e:
+        logger.error(f"Connection check failed: {str(e)}")
+        return False
 
 # Test connection on module load
 if __name__ == "__main__":
