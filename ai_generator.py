@@ -18,7 +18,7 @@ model_name = "openai/gpt-4.1-nano"
 # client = Mistral(api_key=os.getenv("GITHUB_TOKEN"), server_url=endpoint)
 client = OpenAI(
     base_url=endpoint,
-    api_key="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"
+    api_key=os.getenv("OPENAI_API_KEY")
 )
 
 def generate_blog_post(keyword: str, seo_data: Dict[str, float]) -> str:
@@ -78,7 +78,7 @@ def generate_blog_post(keyword: str, seo_data: Dict[str, float]) -> str:
 
     ### 6. Sources (3-5 reputable sources)
     Research and verify each source link before including:
-        - **Source Title**: Brief description (https://verified-working-link.com)
+        - **Source Title**: Brief description (replacing {{AFF_LINK_n}} placeholders with dummy URLs.)
         - Prioritize authoritative, accessible sources
         - Ensure all links are functional and lead to relevant content
 
@@ -113,6 +113,8 @@ def generate_blog_post(keyword: str, seo_data: Dict[str, float]) -> str:
         - End with something memorable or thought-provoking
 
     **Return only the finished blog post content in Markdown format. Do not include meta-commentary or instructions."""
+
+    #  (https://verified-working-link.com) for source to get actual URLs.
     
     try:
         logger.info(f"Generating blog post for keyword: {keyword}")
