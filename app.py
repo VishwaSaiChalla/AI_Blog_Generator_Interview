@@ -108,6 +108,7 @@ def home():
              title = keyword.replace("-", " ").replace("_", " ")
 
         posts.append({'filename': keyword, 'title': title}) # Use keyword as filename/identifier
+        print(f"DEBUG HOME: Generating link for keyword: {keyword}, URL: {url_for('view_post', filename=keyword)}") # DEBUG: Print generated URL
 
     return render_template('index.html', posts=posts)
 
@@ -115,10 +116,12 @@ def home():
 def view_post(filename):
     """Render a single blog post with reviews"""
     print(f"Received request for post with filename: {filename}") # Added logging
+    print(f"DEBUG VIEW_POST: Received filename: {filename}") # DEBUG: Print received filename
     keyword = filename # Use filename as keyword
 
     if not keyword:
         print("Error: Received empty keyword for view_post") # Added logging
+        print("DEBUG VIEW_POST: Keyword is empty.") # DEBUG: Check if keyword is empty
         return "Post not found (empty keyword)", 404
 
     posts_data = load_blog_posts()
@@ -127,6 +130,7 @@ def view_post(filename):
 
     if not blog_post_content:
         print(f"Error: Post content not found for keyword: {keyword}") # Added logging
+        print(f"DEBUG VIEW_POST: Post content not found for keyword: {keyword}") # DEBUG: Check if post content is found
         return "Post not found", 404
 
     # Extract sources from the blog post content
@@ -255,12 +259,15 @@ def delete_all_posts():
         # Load existing posts
         posts_data = load_blog_posts()
 
+        # Get list of keywords (review filenames) before clearing posts_data
+        keywords_to_delete = list(posts_data.keys())
+
         # Delete all posts from the database
         posts_data.clear()
         save_blog_posts(posts_data)
 
         # Delete all associated review files
-        for keyword in posts_data.keys():
+        for keyword in keywords_to_delete:
             reviews_filepath = os.path.join(REVIEWS_DIR, f"{keyword}_reviews.json")
             if os.path.exists(reviews_filepath):
                 os.remove(reviews_filepath)

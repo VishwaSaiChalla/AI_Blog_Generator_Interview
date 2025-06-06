@@ -185,6 +185,38 @@
         {% endif %}
 
         <a href="{{ url_for('home') }}" class="back-link">← Back to Posts</a>
+
+        <hr>
+
+        <h2>Leave a Review</h2>
+        <form action="{{ url_for('submit_review', filename=filename) }}" method="post">
+            <div class="mb-3">
+                <label for="reviewerName" class="form-label">Name:</label>
+                <input type="text" class="form-control" id="reviewerName" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="reviewContent" class="form-label">Your Review:</label>
+                <textarea class="form-control" id="reviewContent" name="review" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+
+        <hr>
+
+        <h2>Reviews</h2>
+        {% if reviews %}
+            {% for review in reviews %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ review.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ review.timestamp }}</h6>
+                        <p class="card-text">{{ review.review }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No reviews yet. Be the first to leave one!</p>
+        {% endif %}
     </div>
 </body>
 </html> 

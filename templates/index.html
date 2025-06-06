@@ -513,9 +513,9 @@
                             // Construct the new list item HTML
                             const newListItemHTML = `
                                 <li>
-                                    <a href="{{ url_for('view_post', filename='${newPostKeyword}') }}">${newPostTitle}</a>
+                                    <a href="/post/${newPostKeyword}">${newPostTitle}</a>
                                     <div class="post-actions">
-                                       <a href="{{ url_for('view_reviews', keyword='${newPostKeyword}') }}">Reviews</a>
+                                       <a href="/reviews/${newPostKeyword}">Reviews</a>
                                         <span>|</span>
                                     </div>
                                 </li>
