@@ -21,6 +21,7 @@ client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
 
+
 def generate_blog_post(keyword: str, seo_data: Dict[str, float]) -> str:
     """
     Generate a blog post using GitHub Models API based on the keyword and SEO data.
