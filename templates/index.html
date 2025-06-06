@@ -3,54 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Blog Generator</title>
+    <title>AI Blog Posts</title>
     <style>
         :root {
-            --primary-color: #6C63FF;
-            --secondary-color: #4CAF50;
-            --accent-color: #FF6B6B;
-            --background-dark: #1a1a1a;
-            --background-light: #2d2d2d;
-            --text-primary: #ffffff;
-            --text-secondary: #b3b3b3;
-            --border-color: #404040;
+            --primary-color: #00A077; /* A green from resume.io */
+            --secondary-color: #3E70E4; /* A blue from resume.io */
+            --accent-color: #FF7043; /* An orange/red accent */
+            --background-dark: #1A1A1A; /* Dark background */
+            --background-light: #282828; /* Slightly lighter background */
+            --text-primary: #E0E0E0; /* Light grey text for readability */
+            --text-secondary: #B0B0B0; /* Slightly darker grey text */
+            --border-color: #383838; /* Darker border color */
             --success-color: #4CAF50;
             --error-color: #f44336;
+            --card-background: #212121; /* Background for list items/cards */
         }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Adjusted font stack */
+            max-width: none; /* Removed max width */
+            margin: 0; /* Removed auto margin */
+            padding: 20px; /* Adjusted padding */
             background-color: var(--background-dark);
             color: var(--text-primary);
+            line-height: 1.6;
         }
 
         .container {
             background-color: var(--background-light);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            padding: 40px 80px; /* Increased horizontal padding */
+            border-radius: 0; /* Removed border-radius for full width look */
+            box-shadow: none; /* Removed box-shadow */
         }
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px; /* Increased margin */
             padding-bottom: 20px;
-            border-bottom: 2px solid var(--border-color);
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            padding: 30px;
-            border-radius: 10px;
-            margin: -30px -30px 30px -30px;
+            border-bottom: 1px solid var(--border-color); /* Thinner border */
+            /* Using solid background instead of gradient for simplicity, matching resume.io header */
+            background-color: var(--background-light); /* Match container background */
+            padding: 0 0 20px 0; /* Adjusted padding */
+            border-radius: 0; /* No border radius on header */
+            margin: 0 0 40px 0; /* Adjusted margin */
         }
 
         .header h1 {
             color: var(--text-primary);
             margin: 0;
-            font-size: 2.8em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            letter-spacing: 1px;
+            font-size: 3em; /* Increased font size */
+            text-shadow: none; /* Removed text shadow */
+            letter-spacing: 0.5px; /* Reduced letter spacing */
+            font-weight: 600; /* Semi-bold */
         }
 
         .header p {
@@ -60,61 +64,63 @@
         }
 
         .search-box {
-            margin-bottom: 30px;
+            margin-bottom: 40px; /* Increased margin */
             text-align: center;
-            padding: 25px;
-            background: linear-gradient(135deg, var(--background-light), var(--background-dark));
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 30px; /* Increased padding */
+            background-color: var(--card-background); /* Use card background */
+            border-radius: 8px; /* Consistent border-radius */
+            border: 1px solid var(--border-color); /* Consistent border */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* Consistent shadow */
         }
 
-        input[type="text"] {
+        .search-box input[type="text"] {
             width: 60%;
-            padding: 15px;
-            font-size: 16px;
-            background-color: var(--background-dark);
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
+            padding: 12px;
+            font-size: 1em;
+            background-color: var(--background-light); /* Match background light */
+            border: 1px solid var(--border-color); /* Thinner border */
+            border-radius: 4px; /* Smaller border-radius */
             margin-right: 10px;
             color: var(--text-primary);
             transition: all 0.3s ease;
         }
 
-        input[type="text"]:focus {
+        .search-box input[type="text"]:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 10px rgba(108, 99, 255, 0.3);
+            border-color: var(--secondary-color); /* Highlight with secondary color */
+            box-shadow: 0 0 8px rgba(62, 112, 228, 0.5); /* Adjusted shadow color */
             white-space: pre-wrap;
         }
 
-        button {
-            padding: 15px 30px;
-            font-size: 16px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        .search-box button {
+            padding: 12px 25px; /* Adjusted padding */
+            font-size: 1em;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); /* Kept gradient */
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px; /* Consistent border-radius */
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px; /* Reduced letter spacing */
             font-weight: bold;
         }
 
-        button:hover {
+        .search-box button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.4);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* Adjusted shadow */
         }
 
         .loading {
             display: none;
             text-align: center;
             margin: 20px 0;
-            padding: 20px;
+            padding: 15px;
             background-color: var(--background-light);
             border-radius: 8px;
             border: 1px solid var(--border-color);
+            color: var(--primary-color);
+            font-weight: 500;
         }
 
         .error {
@@ -128,127 +134,136 @@
             display: none;
         }
 
-        .blog-content {
-            margin-top: 30px;
-            padding: 30px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            background-color: var(--background-light);
+        .posts-list {
+            margin-top: 0; /* Adjusted margin */
+            padding: 0; /* Adjusted padding */
+            border: none; /* Removed border */
+            background-color: transparent; /* Transparent background */
+            box-shadow: none; /* Removed box shadow */
         }
 
-        .blog-section {
-            margin-bottom: 30px;
-            padding: 25px;
-            background-color: var(--background-dark);
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        .posts-list h2 {
+            color: var(--primary-color); /* Using primary color for heading */
+            font-size: 1.8em; /* Adjusted font size */
+            margin-bottom: 25px; /* Increased margin */
+            padding-bottom: 10px; /* Adjusted padding */
+            border-bottom: 2px solid var(--border-color); /* Border for heading */
+            font-weight: 600; /* Semi-bold */
         }
 
-        .blog-title {
-            color: var(--primary-color);
-            font-size: 2.2em;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--border-color);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-
-        .blog-subtitle {
-            color: var(--secondary-color);
-            font-size: 1.6em;
-            margin: 30px 0 20px;
-            padding: 12px 18px;
-            background-color: var(--background-light);
-            border-left: 4px solid var(--secondary-color);
-            border-radius: 6px;
-        }
-
-        .blog-subsubtitle {
-            color: var(--accent-color);
-            font-size: 1.3em;
-            margin: 25px 0 15px;
-            padding: 10px 15px;
-            background-color: var(--background-light);
-            border-left: 3px solid var(--accent-color);
-            border-radius: 6px;
-        }
-
-        .blog-source {
-            color: var(--text-secondary);
-            font-size: 1.1em;
-            margin: 20px 0;
-            padding: 12px 15px;
-            background-color: var(--background-light);
-            border-left: 3px solid var(--text-secondary);
-            border-radius: 6px;
-            font-style: italic;
-        }
-
-        .source-name {
-            color: var(--primary-color);
-            font-weight: bold;
-            font-style: normal;
-        }
-
-        .source-url {
-            color: var(--secondary-color);
-            font-style: normal;
-            word-break: break-all;
-        }
-
-        .blog-paragraph {
-            line-height: 1.8;
-            color: var(--text-secondary);
-            margin: 20px 0;
-            padding: 0 25px;
-        }
-
-        .blog-list {
-            margin: 20px 0;
-            padding-left: 25px;
-            color: var(--text-secondary);
-        }
-
-        .blog-list li {
-            margin: 12px 0;
-            line-height: 1.6;
-        }
-
-        .seo-stats {
-            background: linear-gradient(135deg, var(--background-light), var(--background-dark));
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 30px;
-            border: 1px solid var(--border-color);
-        }
-
-        .seo-stats h3 {
-            color: var(--primary-color);
-            margin: 0 0 15px 0;
-            font-size: 1.2em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .seo-stats ul {
+        .posts-list ul {
             list-style: none;
             padding: 0;
             margin: 0;
-            display: flex;
-            justify-content: space-between;
+        }
+
+        .posts-list li {
+            margin: 0 0 15px 0; /* Adjusted margin */
+            line-height: 1.6;
+            background-color: var(--card-background); /* Card background */
+            padding: 15px 20px; /* Padding inside list item */
+            border-radius: 5px; /* Rounded corners for list item */
+            border: 1px solid var(--border-color); /* Border for list item */
+            transition: transform 0.2s ease, box-shadow 0.2s ease; /* Added transition */
+        }
+
+        .posts-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .posts-list li:hover {
+            transform: translateY(-3px); /* Lift effect on hover */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Shadow on hover */
+        }
+
+        .posts-list a {
+            color: var(--secondary-color); /* Using secondary color for links */
+            text-decoration: none;
+            font-size: 1.1em; /* Slightly larger font size */
+            font-weight: 500; /* Medium weight */
+        }
+
+        .posts-list a:hover {
+            color: var(--primary-color); /* Change color on hover */
+            text-decoration: underline; /* Underline on hover */
+        }
+
+        /* Basic styling for the "No blog posts generated yet." message */
+        .posts-list p {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .posts-list .post-actions {
+            margin-top: 10px;
+            font-size: 0.9em;
+            display: flex; /* Use flexbox for actions */
+            gap: 15px; /* Space between action items */
             align-items: center;
         }
 
-        .seo-stats li {
-            margin: 0;
-            color: var(--text-secondary);
-            display: inline-block;
-            padding: 0 25px;
-            border-right: 1px solid var(--border-color);
+        .posts-list .post-actions a,
+        .posts-list .post-actions button {
+            color: var(--text-secondary); /* Color for action links/buttons */
+            text-decoration: none;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            font-size: 0.9em; /* Consistent font size */
+            transition: color 0.3s ease;
         }
 
-        .seo-stats li:last-child {
-            border-right: none;
+        .posts-list .post-actions a:hover,
+        .posts-list .post-actions button:hover {
+            color: var(--primary-color); /* Highlight color on hover */
+            text-decoration: underline;
+        }
+
+        .posts-list .post-actions button.delete-button {
+            color: var(--error-color); /* Red color specifically for delete */
+        }
+
+        .posts-list .post-actions button.delete-button:hover {
+            color: #e57373; /* Lighter red on hover */
+        }
+
+        /* Remove numbering from ordered lists in blog content */
+        .generated-post-preview ol,
+        .blog-post-content ol {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .two-column-container {
+            display: flex;
+            gap: 40px; /* Space between columns */
+        }
+
+        .generated-post-preview {
+            flex: 2; /* Left column takes more space */
+            min-width: 0; /* Allow content to shrink */
+            /* Add padding and background to match the design */
+            padding: 20px;
+            background-color: var(--background-dark); /* Use dark background */
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+         .generated-post-preview h2 {
+             color: var(--primary-color);
+             font-size: 1.5em;
+             margin-top: 0;
+             margin-bottom: 20px;
+             padding-bottom: 10px;
+             border-bottom: 1px solid var(--border-color);
+             font-weight: 600;
+         }
+
+        .posts-list {
+            flex: 1; /* Right column takes less space */
+            min-width: 0; /* Allow content to shrink */
         }
 
         /* Add smooth scrolling */
@@ -353,175 +368,204 @@
         .source-title:hover::after {
             opacity: 1;
         }
+
+        /* SEO Stats Styling */
+         .seo-stats {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--background-light);
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+         }
+
+         .seo-stats h3 {
+            color: var(--secondary-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 5px;
+         }
+
+         .seo-stats ul {
+             list-style: none;
+             padding: 0;
+             margin: 0;
+         }
+
+         .seo-stats li {
+             margin-bottom: 8px;
+             color: var(--text-secondary);
+             font-size: 1em;
+         }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <header class="header">
             <h1>AI Blog Generator</h1>
-            <p>Generate SEO-optimized blog posts with AI</p>
-        </div>
-        
+            <p>Generate SEO-optimized blog posts instantly.</p>
+        </header>
+
         <div class="search-box">
-            <input type="text" id="keyword" placeholder="Enter your keyword (e.g., 'wireless earbuds')">
-            <button onclick="generateBlog()">Generate Blog Post</button>
+            <input type="text" id="keywordInput" placeholder="Enter keyword...">
+            <button id="generateButton">Generate Post</button>
         </div>
 
-        <div class="loading" id="loading">
-            <h3>Generating blog post...</h3>
-            <p>Please wait while we create your content...</p>
+        <div id="loadingMessage" class="loading">
+            Generating post...
         </div>
 
-        <div class="error" id="error"></div>
+        <div id="errorMessage" class="error">
+            An error occurred during post generation.
+        </div>
 
-        <div class="blog-content" id="blogContent"></div>
+        <div class="two-column-container">
+            <div id="generatedPostPreview" class="generated-post-preview" style="display: none;">
+                <h2>Latest Generated Post</h2>
+                <div id="postContent"></div>
+            </div>
+
+            <div class="posts-list">
+                <h2>Latest Posts</h2>
+                <ul id="postsList">
+                    {% if posts %}
+                    {% for post in posts %}
+                    <li>
+                        <a href="{{ url_for('view_post', filename=post.filename) }}">{{ post.title }}</a>
+                        <div class="post-actions">
+                           <a href="{{ url_for('view_reviews', keyword=post.filename) }}">Reviews</a>
+                            <span>|</span>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    {% else %}
+                    <p id="noPostsMessage">No blog posts generated yet.</p>
+                    {% endif %}
+                </ul>
+                {% if posts %}
+                <div class="delete-button-container">
+                    <button id="deleteAllButton">Delete All Generated Posts</button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
 
     <script>
-        // Add debug logging
-        console.log('Script loaded');
+        document.getElementById('generateButton').addEventListener('click', function() {
+            const keywordInput = document.getElementById('keywordInput');
+            const keyword = keywordInput.value;
+            const loadingMessage = document.getElementById('loadingMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const generatedPostPreview = document.getElementById('generatedPostPreview');
+            const postContent = document.getElementById('postContent');
+            const postsListUl = document.getElementById('postsList');
+            const noPostsMessage = document.getElementById('noPostsMessage');
 
-        // Function to clean and format text
-        function formatText(text) {
-            return text
-                .replace(/\s+/g, ' ')           // Replace multiple spaces with single space
-                .replace(/^\s+|\s+$/g, '')      // Trim whitespace
-                .replace(/[^\x20-\x7E]/g, '')   // Remove non-printable characters
-                .replace(/&/g, '&amp;')         // Escape HTML entities
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
-        }
+            if (keyword) {
+                loadingMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+                generatedPostPreview.style.display = 'none'; // Hide previous preview
+                postContent.innerHTML = ''; // Clear previous content
 
-        async function generateBlog() {
-            console.log('generateBlog function called');
-            const keyword = document.getElementById('keyword').value.trim();
-            console.log('Keyword:', keyword);
-            
-            if (!keyword) {
-                showError('Please enter a keyword');
-                return;
-            }
-
-            // Show loading and hide previous content
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('error').style.display = 'none';
-            document.getElementById('blogContent').innerHTML = '';
-
-            try {
-                console.log('Sending request for keyword:', keyword);
-                const response = await fetch(`/generate?keyword=${encodeURIComponent(keyword)}`);
-                console.log('Response received:', response);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log('Data received:', data);
-
-                if (data.error) {
-                    showError(data.error);
-                    return;
-                }
-
-                // Format the blog post content
-                let formattedContent = data.blog_post
-                    // Remove lines with only -- separator
-                    .replace(/^--\s*$\s*/gm, '')
-                    .replace(/^# (.*$)/gm, '<div class="blog-title">$1</div>')
-                    .replace(/^## (.*$)/gm, '<div class="blog-subtitle">$1</div>')
-                    .replace(/^### (.*$)/gm, '<div class="blog-subsubtitle">$1</div>')
-                    // Handle source section with specific format
-                    .replace(/^Sources?:$/gm, '<div class="sources-header">References</div>')
-                    .replace(/^-\s*([^-]+)\s*(https?:\/\/[^\s]+)$/gm,
-                        '<div class="source-item"><a href="$2" target="_blank" rel="noopener noreferrer" class="source-title">$1</a></div>')
-                    // Convert markdown list items including bold text to HTML list items
-                    .replace(/^\s*[-*]\s*\*\*(.*?)\*\*:\s*(.*)$/gm, '<li><strong>$1</strong>: $2</li>') // Handles bold at start of list item
-                    .replace(/^\s*[-*]\s*(.*)$/gm, '<li>$1</li>') // Handles regular list items
-
-                    // Remove list items that contain only -- or ---
-                    .replace(/<li>--+<\/li>\s*/gm, '')
-
-                    // Convert **text** to bold text globally for any remaining cases (e.g., within paragraphs)
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-
-                    // Remove specific --- separator before Sources
-                    .replace(/^---\s*\n\s*### Sources/gm, '### Sources')
-
-                    // Remove any other lines with only --- separator (fallback)
-                    .replace(/^---\s*$/gm, '')
-
-                    // Clean up paragraphs (lines that are not already part of a div, list, or source item)
-                    .replace(/^(?!<div|<li|<div class="source-item">)(.*$)/gm, function(match) {
-                        // Remove trailing "--" from the match before wrapping in a paragraph div
-                        let cleanedMatch = match.trim().replace(/\s+--$/, '').replace(/\s+/g, ' ');
-                        return '<div class="blog-paragraph">' +
-                               cleanedMatch +
-                               '</div>';
+                // Make a fetch request to the generate endpoint
+                fetch(`/generate?keyword=${encodeURIComponent(keyword)}`)
+                    .then(response => {
+                        loadingMessage.style.display = 'none';
+                        if (!response.ok) {
+                            // If response is not OK (e.g., 400, 500), parse error message
+                            return response.json().then(data => {
+                                throw new Error(data.error || 'Unknown error occurred');
+                            });
+                        }
+                        return response.json();
                     })
-                    // Wrap li items in ul - This will now wrap blocks of <li> tags
-                     .replace(/(<li>.*?<\/li>(\s*<li>.*?<\/li>)*)/gs, '<ul class="blog-list">$1</ul>')
+                    .then(data => {
+                        // Display the generated post preview
+                        if (data.blog_post) {
+                            // Use the HTML version provided by the backend
+                            postContent.innerHTML = data.blog_post_html;
+                            generatedPostPreview.style.display = 'block';
+                            // Optional: Scroll to the generated post section
+                            generatedPostPreview.scrollIntoView();
 
-                    // Remove lines with only --- separator
-                    .replace(/^---\s*$\s*/gm, '')
+                            // Dynamically add the new post to the Latest Posts list
+                            const newPostKeyword = data.filename; // Sanitized keyword from backend
+                            const newPostContent = data.blog_post;
 
-                    // Remove empty lines
-                    .replace(/^\s*[\r\n]/gm, '');
+                            // Extract title from the new post content
+                            let newPostTitle = "Untitled Post";
+                            const lines = newPostContent.split('\n');
+                            for (let i = 0; i < lines.length && i < 15; i++) { // Check first 15 lines
+                                if (lines[i].trim().startsWith('# ')) {
+                                    newPostTitle = lines[i].trim().substring(2).trim(); // Remove '# ' and trim whitespace
+                                    break;
+                                }
+                            }
 
-                // Create SEO stats section
-                const seoStats = `
-                    <div class="seo-stats">
-                        <h3>SEO Statistics</h3>
-                        <ul>
-                            <li>Search Volume: ${formatText(data.seo_data.search_volume.toString())}</li>
-                            <li>Keyword Difficulty: ${formatText(data.seo_data.keyword_difficulty.toString())}</li>
-                            <li>Average CPC: $${formatText(data.seo_data.avg_cpc.toString())}</li>
-                        </ul>
-                    </div>
-                `;
+                            // Fallback to formatted keyword if no H1 found
+                            if (newPostTitle === "Untitled Post") {
+                                newPostTitle = newPostKeyword.replace(/-/g, ' ').replace(/_/g, ' ');
+                            }
 
-                // Display the formatted blog post and SEO stats
-                document.getElementById('blogContent').innerHTML = 
-                    `<div class="blog-section">${formattedContent}</div>${seoStats}`;
-            } catch (error) {
-                console.error('Error:', error);
-                showError('An error occurred while generating the blog post: ' + error.message);
-            } finally {
-                document.getElementById('loading').style.display = 'none';
+                            // Construct the new list item HTML
+                            const newListItemHTML = `
+                                <li>
+                                    <a href="/post/${newPostKeyword}">${newPostTitle}</a>
+                                    <div class="post-actions">
+                                       <a href="/reviews/${newPostKeyword}">Reviews</a>
+                                        <span>|</span>
+                                    </div>
+                                </li>
+                            `;
+
+                            // Prepend the new list item to the ul
+                            if (postsListUl) {
+                                postsListUl.insertAdjacentHTML('afterbegin', newListItemHTML);
+                                // Hide the 'No blog posts yet.' message if it's visible
+                                if (noPostsMessage) {
+                                    noPostsMessage.style.display = 'none';
+                                }
+                            }
+
+                        }
+                    })
+                    .catch(error => {
+                        loadingMessage.style.display = 'none';
+                        errorMessage.textContent = `Error: ${error.message}`; // Display error message from backend
+                        errorMessage.style.display = 'block';
+                         console.error('Fetch error:', error);
+                    });
+            } else {
+                alert('Please enter a keyword.');
             }
-        }
-
-        function showError(message) {
-            console.log('Showing error:', message);
-            const errorDiv = document.getElementById('error');
-            errorDiv.textContent = formatText(message);
-            errorDiv.style.display = 'block';
-        }
-
-        // Add event listeners when the document is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, adding event listeners');
-            
-            // Add click event listener to the button
-            const button = document.querySelector('button');
-            console.log('Button element:', button);
-            button.addEventListener('click', function(e) {
-                console.log('Button clicked');
-                generateBlog();
-            });
-            
-            // Add keypress event listener to the input
-            const input = document.getElementById('keyword');
-            console.log('Input element:', input);
-            input.addEventListener('keypress', function(e) {
-                console.log('Key pressed:', e.key);
-                if (e.key === 'Enter') {
-                    generateBlog();
-                }
-            });
         });
+
+        // Add event listener for the delete all button
+        document.getElementById('deleteAllButton').addEventListener('click', function() {
+            if (confirm('Are you sure you want to delete all generated posts?')) {
+                fetch('/delete_all_posts', {
+                    method: 'POST',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        // Reload the page to show the empty list
+                        window.location.reload();
+                    } else {
+                        alert('Error deleting posts: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('An error occurred while trying to delete posts.');
+                    console.error('Delete error:', error);
+                });
+            }
+        });
+
     </script>
 </body>
 </html> 
