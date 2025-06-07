@@ -169,6 +169,17 @@
             <h1>{{ title }}</h1>
         </div>
 
+        {% if seo_data %}
+        <div class="seo-stats">
+            <h3>SEO Statistics</h3>
+            <ul>
+                <li><strong>Search Volume:</strong> {{ seo_data.search_volume | int | to_localized_string }}</li>
+                <li><strong>Keyword Difficulty:</strong> {{ seo_data.keyword_difficulty | int }}%</li>
+                <li><strong>Average CPC:</strong> ${{ seo_data.avg_cpc | float | round(2) }}</li>
+            </ul>
+        </div>
+        {% endif %}
+
         <div class="blog-post-content">
             {{ post_html | safe }}
         </div>

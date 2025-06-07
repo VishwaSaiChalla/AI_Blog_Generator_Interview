@@ -15,6 +15,11 @@ load_dotenv()
 
 app = Flask(__name__)
 
+# Custom Jinja2 filter for number localization
+@app.template_filter('to_localized_string')
+def to_localized_string_filter(value):
+    return f"{value:,}"  # Formats number with comma as thousand separator
+
 # Directory for storing generated posts and reviews
 GENERATED_POSTS_DIR = "generated_posts"
 REVIEWS_DIR = "reviews"
@@ -153,6 +158,9 @@ def view_post(filename):
     # Convert Markdown to HTML (of content without sources)
     blog_post_html = markdown.markdown(blog_post_content_without_sources, extensions=["fenced_code", "nl2br"])
 
+    # Get SEO data for the post
+    seo_data = get_seo_data(keyword)
+
     # Load reviews - review filenames are based on the keyword now
     reviews_filepath = os.path.join(REVIEWS_DIR, f"{keyword}_reviews.json") # Renamed review file format
     reviews = []
@@ -170,8 +178,8 @@ def view_post(filename):
     if view_title == "Untitled Post":
          view_title = keyword.replace("-", " ").replace("_", " ") # Fallback to keyword
 
-    # Pass extracted sources to the template
-    return render_template('post.html', title=view_title, post_html=blog_post_html, reviews=reviews, filename=keyword, sources=sources)
+    # Pass extracted sources and SEO data to the template
+    return render_template('post.html', title=view_title, post_html=blog_post_html, reviews=reviews, filename=keyword, sources=sources, seo_data=seo_data)
 
 @app.route('/submit_review/<filename>', methods=['POST'])
 def submit_review(filename):
@@ -217,41 +225,34 @@ def submit_review(filename):
 # Endpoint to generate a blog post for a given keyword (used by frontend)
 @app.route('/generate', methods=['GET'])
 def generate_post():
-    """Endpoint to generate a blog post for a given keyword and save it to the JSON DB."""
     keyword = request.args.get('keyword')
     if not keyword:
-        return jsonify({"error": "Keyword parameter is required"}), 400
+        return jsonify({"error": "Keyword is required"}), 400
 
+    sanitized_keyword = sanitize_keyword(keyword)
+    
     try:
-        # Get SEO data for the keyword
+        # Generate blog post and get SEO data
         seo_data = get_seo_data(keyword)
+        blog_post_content = generate_blog_post(keyword, seo_data)
 
-        # Generate blog post using AI
-        blog_post = generate_blog_post(keyword, seo_data)
-
-        # Sanitize keyword for use as database key
-        sanitized_keyword = sanitize_keyword(keyword)
-
-        # Load existing posts, add/update the new post, and save
+        # Save the generated blog post
         posts_data = load_blog_posts()
-        posts_data[sanitized_keyword] = blog_post
+        posts_data[sanitized_keyword] = blog_post_content
         save_blog_posts(posts_data)
 
-        print(f"Generated post for keyword: {keyword} and saved with key: {sanitized_keyword}")
+        # Convert Markdown to HTML for display
+        blog_post_html = markdown.markdown(blog_post_content, extensions=["fenced_code", "nl2br"])
 
-        # Return the generated post data as JSON
         return jsonify({
-            "keyword": keyword,
-            "seo_data": seo_data,
-            "blog_post": blog_post,
-            "blog_post_html": markdown.markdown(blog_post, extensions=["fenced_code", "nl2br"]),
-            "filename": sanitized_keyword # Return sanitized keyword as identifier
+            "blog_post": blog_post_content,
+            "blog_post_html": blog_post_html,
+            "filename": sanitized_keyword,
+            "seo_data": seo_data  # Pass SEO data to the frontend
         })
-
     except Exception as e:
-        # Catch exceptions during get_seo_data, generate_blog_post, or file operations
-        print(f"Error during blog post generation or saving: {str(e)}")
-        return jsonify({"error": f"Error generating or saving post: {str(e)}"}), 500
+        print(f"Error generating blog post: {e}")
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/delete_all_posts', methods=['POST'])
 def delete_all_posts():
@@ -331,7 +332,7 @@ def view_reviews(keyword):
 
 if __name__ == '__main__':
     # Start the scheduler
-    scheduler.add_job(generate_daily_post, 'cron', hour=15, minute=10)  # Run at midnight every day
+    scheduler.add_job(generate_daily_post, 'cron', hour=15, minute=36)  # Run at midnight every day
     scheduler.start()
 
     # Ensure directories exist (already done, but good to be explicit)
