@@ -488,6 +488,22 @@
                             // Use the HTML version provided by the backend
                             postContent.innerHTML = data.blog_post_html;
                             generatedPostPreview.style.display = 'block';
+
+                            // Display SEO Stats
+                            if (data.seo_data) {
+                                const seoStatsHtml = `
+                                    <div class="seo-stats">
+                                        <h3>SEO Statistics</h3>
+                                        <ul>
+                                            <li><strong>Search Volume:</strong> ${data.seo_data.search_volume.toLocaleString()}</li>
+                                            <li><strong>Keyword Difficulty:</strong> ${data.seo_data.keyword_difficulty}%</li>
+                                            <li><strong>Average CPC:</strong> $${data.seo_data.avg_cpc.toFixed(2)}</li>
+                                        </ul>
+                                    </div>
+                                `;
+                                postContent.insertAdjacentHTML('beforeend', seoStatsHtml);
+                            }
+
                             // Optional: Scroll to the generated post section
                             generatedPostPreview.scrollIntoView();
 
