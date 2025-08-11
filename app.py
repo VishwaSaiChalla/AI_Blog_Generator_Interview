@@ -332,7 +332,7 @@ def view_reviews(keyword):
 
 if __name__ == '__main__':
     # Start the scheduler
-    scheduler.add_job(generate_daily_post, 'cron', hour=15, minute=36)  # Run at midnight every day
+    scheduler.add_job(generate_daily_post, 'cron', hour=9, minute=15)  # Run at midnight every day
     scheduler.start()
 
     # Ensure directories exist (already done, but good to be explicit)
